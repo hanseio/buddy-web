@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 멘트 추천 서비스</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>AI 기반 멘트 추천 서비스</h1>
+    <form id="input-form">
+        <textarea id="user-input" placeholder="상황을 설명하세요..."></textarea>
+        <button type="submit">추천받기</button>
+    </form>
+    <div id="recommendations"></div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
