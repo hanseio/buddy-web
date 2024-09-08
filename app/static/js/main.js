@@ -2,74 +2,69 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatMessages = document.getElementById('chatMessages');
     const userInput = document.getElementById('userInput');
     const sendButton = document.getElementById('sendButton');
-    const logoutButton = document.getElementById('logoutButton');
 
     function addMessage(content, isUser = false) {
         const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message');
-        messageDiv.classList.add(isUser ? 'user-message' : 'friend-message');
+        messageDiv.classList.add('message', isUser ? 'user-message' : 'friend-message');
         messageDiv.textContent = content;
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    function getFriendResponse(userMessage) {
-        // 여기에 AI 로직을 연결하거나 임시 응답을 생성합니다
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(`당신의 메시지 "${userMessage}"에 대한 친구의 대답입니다.`);
-            }, 1000); // 1초 후 응답
-        });
-    }
-
-    sendButton.addEventListener('click', async () => {
+    function handleUserInput() {
         const message = userInput.value.trim();
         if (message) {
             addMessage(message, true);
             userInput.value = '';
-
-            // 친구 응답 대기 중 표시
-            const typingIndicator = document.createElement('div');
-            typingIndicator.classList.add('message', 'friend-message');
-            typingIndicator.textContent = '입력 중...';
-            chatMessages.appendChild(typingIndicator);
-
-            const response = await getFriendResponse(message);
-            
-            // 대기 중 메시지 제거
-            chatMessages.removeChild(typingIndicator);
-
-            addMessage(response, false);
+            // 여기서 AI 응답을 요청하는 함수를 호출할 예정입니다.
+            requestAIResponse(message);
         }
-    });
+    }
 
+    sendButton.addEventListener('click', handleUserInput);
     userInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            sendButton.click();
+            handleUserInput();
         }
     });
 
+    // AI 응답 요청 함수 (아직 구현되지 않음)
+    function requestAIResponse(userMessage) {
+        fetch('/get_ai_response', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: userMessage }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            addMessage(data.response, false);
+        })
+        .catch(error => {
+            console.error('AI 응답 오류:', error);
+            addMessage('죄송합니다. 응답을 생성하는 데 문제가 발생했습니다.', false);
+        });
+    }
+
+    const logoutButton = document.getElementById('logoutButton');
+    
     logoutButton.addEventListener('click', () => {
-        // 서버에 로그아웃 요청을 보냅니다.
         fetch('/logout', {
             method: 'POST',
-            credentials: 'include' // 쿠키를 포함시킵니다.
+            credentials: 'include'
         })
         .then(response => {
             if (response.ok) {
-                // 로컬 스토리지나 세션 스토리지의 사용자 관련 데이터를 삭제합니다.
-                localStorage.removeItem('userToken'); // 예시: 저장된 토큰 삭제
-                sessionStorage.clear(); // 세션 스토리지 초기화
-
-                // 클라이언트 측 상태 초기화
-                // 예: 채팅 기록 삭제, 사용자 정보 초기화 등
-
-                alert('로그아웃되었습니다.');
-                window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+                return response.json(); // JSON 응답을 파싱합니다.
             } else {
-                alert('로그아웃 처리 중 오류가 발생했습니다.');
+                throw new Error('로그아웃 실패');
             }
+        })
+        .then(data => {
+            alert(data.message); // 서버에서 보낸 메시지를 알림으로 표시합니다.
+            window.location.href = '/login'; // 로그인 페이지로 리다이렉트합니다.
         })
         .catch(error => {
             console.error('로그아웃 오류:', error);
@@ -77,6 +72,54 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 초기 메시지 추가
-    addMessage('안녕하세요! 무엇을 도와드릴까요?', false);
+    // 새로운 코드 추가
+    $(document).ready(function() {
+        $('#chat-form').submit(function(e) {
+            e.preventDefault();
+            var userMessage = $('#user-input').val();
+            if (userMessage.trim() === '') return;
+
+            // 사용자 메시지를 채팅창에 추가
+            $('#chat-messages').append('<div class="message user-message"><p>' + userMessage + '</p></div>');
+            $('#user-input').val('');
+
+            // 스크롤을 최하단으로 이동
+            $('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+
+            // AI 응답 대기 중 메시지 표시
+            var waitingMessage = $('<div class="message ai-message"><p>AI가 응답하는 중...</p></div>');
+            $('#chat-messages').append(waitingMessage);
+
+            // 서버에 메시지 전송 및 응답 수신
+            $.ajax({
+                url: '/get_ai_response',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    message: userMessage,
+                    use_language_detection: true  // 언어 감지 기능 사용
+                }),
+                success: function(response) {
+                    // 대기 중 메시지 제거
+                    waitingMessage.remove();
+
+                    // AI 응답을 채팅창에 추가
+                    $('#chat-messages').append('<div class="message ai-message"><p>' + response.response + '</p></div>');
+
+                    // 스크롤을 최하단으로 이동
+                    $('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+                },
+                error: function() {
+                    // 대기 중 메시지 제거
+                    waitingMessage.remove();
+
+                    // 오류 메시지 표시
+                    $('#chat-messages').append('<div class="message ai-message error"><p>죄송합니다. 응답을 생성하는 데 문제가 발생했습니다.</p></div>');
+
+                    // 스크롤을 최하단으로 이동
+                    $('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+                }
+            });
+        });
+    });
 });

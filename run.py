@@ -1,11 +1,7 @@
-from flask import Flask
-from app import app
-import os
 from dotenv import load_dotenv
+load_dotenv()  # .env 파일에서 환경 변수를 로드합니다.
 
-load_dotenv()
-
-app.secret_key = os.getenv("SECRET_KEY")  # 환경 변수 사용
+from app import app
 
 if __name__ == '__main__':
     app.run(debug=True)

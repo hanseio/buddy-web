@@ -3,6 +3,7 @@ from flask_dance.contrib.google import make_google_blueprint, google
 from authlib.integrations.flask_client import OAuth
 from app import app
 import os
+from app.ai_utils import generate_ai_response
 
 # Insecure Transport 허용 (로컬 개발 시 사용)
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -81,6 +82,12 @@ def home():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    # 세션에서 사용자 정보 제거
     session.clear()
     return jsonify({"message": "로그아웃 성공"}), 200
+
+@app.route('/get_ai_response', methods=['POST'])
+def get_ai_response():
+    user_message = request.json['message']
+    use_language_detection = request.json.get('use_language_detection', False)
+    ai_response = generate_ai_response(user_message, use_language_detection)
+    return jsonify({"response": ai_response})
