@@ -76,5 +76,5 @@ def kakao_callback():
 @app.route('/')
 def home():
     if 'google_user' in session or 'kakao_user' in session:
-        return render_template('recommendation.html')
+        return render_template('main.html')
     return redirect(url_for('login'))
