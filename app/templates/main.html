@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 멘트 추천 서비스</title>
+    <title>친구와의 대화</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    <h1>AI 기반 멘트 추천 서비스</h1>
-    <form id="input-form">
-        <textarea id="user-input" placeholder="상황을 설명하세요..."></textarea>
-        <button type="submit">추천받기</button>
-    </form>
-    <div id="recommendations"></div>
-
+    <div class="chat-container">
+        <div class="chat-header">
+            <img src="{{ url_for('static', filename='images/friend-avatar.jpg') }}" alt="친구 프로필" class="avatar">
+            <h2>친구 이름</h2>
+            <button id="logoutButton" class="logout-btn">로그아웃</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- 메시지들이 여기에 동적으로 추가됩니다 -->
+        </div>
+        <div class="chat-input">
+            <textarea id="userInput" placeholder="메시지를 입력하세요..."></textarea>
+            <button id="sendButton">보내기</button>
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-
 </body>
 </html>

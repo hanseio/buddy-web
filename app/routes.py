@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, session, request
+from flask import render_template, redirect, url_for, session, request, jsonify
 from flask_dance.contrib.google import make_google_blueprint, google
 from authlib.integrations.flask_client import OAuth
 from app import app
@@ -78,3 +78,9 @@ def home():
     if 'google_user' in session or 'kakao_user' in session:
         return render_template('main.html')
     return redirect(url_for('login'))
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    # 세션에서 사용자 정보 제거
+    session.clear()
+    return jsonify({"message": "로그아웃 성공"}), 200
