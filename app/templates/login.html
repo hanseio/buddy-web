@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buddy AI - 로그인</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="split left">
+        <!-- 왼쪽 상단 로고 -->
+        <div class="logo">Buddy AI</div>
+        
+        <!-- 메인 텍스트 -->
+        <div class="main-textcontent">
+            <p class="main-text">어떻게 연락해야 할지 고민된다면,<br>친구에게 묻듯이 버디에게 물어보세요.</p>
+        </div>
+
+        <div class="login-content">
+            <a href="{{ url_for('google.login') }}" class="login-button google-login-button">
+                <img src="{{ url_for('static', filename='images/google-logo.png') }}" alt="Google logo">
+                Google로 계속하기
+            </a>
+            <a href="{{ url_for('kakao_login') }}" class="login-button kakao-login-button">
+                <img src="{{ url_for('static', filename='images/kakao-logo.png') }}" alt="kakao logo">
+                카카오로 계속하기
+            </a>
+        </div>
+    </div>
+    
+
+    <div class="split right">
+                <div class="phone-screen">
+                    <div class="chat-container">
+                        <div class="chat-bubble love">❤️ 그 사람한테 뭐라고 답장할까?</div>
+                        <div class="chat-bubble friend">🥲 친구한테 사과할 타이밍을 놓쳤어..</div>
+                        <div class="chat-bubble longtime">💦 오랜만에 연락해서 어색해..</div>
+                        <div class="chat-bubble refuse">🤔 동료의 부탁을 어떻게 거절하지?</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

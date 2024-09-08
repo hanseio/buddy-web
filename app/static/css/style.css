@@ -1,28 +1,250 @@
-body {
-    font-family: Arial, sans-serif;
+html, body {
     margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
+    padding: 0;
+    height: 100%; /* 페이지가 전체 화면을 차지하도록 설정 */
+    overflow-x: hidden; /* 가로 스크롤 방지 */
 }
-h1 {
+
+/* 전체 화면 분할 */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+}
+
+.split {
+    width: 50%;
+    height: 100%;
+    position: relative;
+}
+
+.left {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 수직 가운데 정렬 */
+    align-items: center; /* 수평 가운데 정렬 */
+    height: 100vh;
+    overflow: hidden; /* 넘치는 내용을 숨겨서 빈 공간 방지 */
+
+}
+
+.right {
+    position: relative;
+    width: 50%; /* 오른쪽 공간의 너비 */
+    height: 100vh; /* 전체 화면 높이 */
+    background-color: #6564fe; /* 오른쪽 공간 배경색 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 넘치는 내용을 숨겨서 빈 공간 방지 */
+
+
+}
+
+/* 로고 스타일 */
+.logo {
+    position: absolute;
+    top: 1vh;
+    left: 1vw;
+    font-size: 1.7vw;
+    font-weight: bold;
     color: #333;
+    font-family: 'Arial', sans-serif;
 }
-form {
-    margin-bottom: 20px;
+
+/* 텍스트와 버튼 스타일 */
+.main-text {
+    color: #333;
+    font-size: 2vw;
+    line-height: 1.6;
+    margin-top: -5vh; 
+    margin-bottom: 8vh;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-align: center;
 }
-textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    margin-bottom: 10px;
+
+/* 구글 로그인 버튼의 부모 컨테이너가 좌우 가운데 정렬되도록 설정 */
+.login-content {
+    display: flex;
+    justify-content: center;  /* 수평 가운데 정렬 */
+    align-items: center;      /* 수직 가운데 정렬 */
+    text-align: center;  /* 텍스트 및 내부 요소 가운데 정렬 */
+    flex-direction: column; /* 버튼들을 수직으로 배치 */
 }
-button {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
+
+/* Google 로그인 버튼 스타일 */
+.google-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px; /* 패딩을 픽셀 단위로 설정 */
+    width: 250px; /* 고정된 너비 설정 */
+    max-width: 350px; /* 최대 너비 설정 */
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 10px; /* 둥근 모서리 크기 */
+    background-color: white;
+    color: #555;
+    font-size: 16px; /* 폰트 크기 고정 */
+    font-weight: 500;
     cursor: pointer;
+    text-transform: none;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 15px; /* 구글과 카카오 버튼 사이에 간격 추가 */
 }
-#recommendations {
-    margin-top: 20px;
+
+
+.google-login-button img {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+
+}
+
+
+.google-login-button:hover {
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* kakao 로그인 버튼 스타일 */
+.kakao-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px; /* 패딩을 픽셀 단위로 설정 */
+    width: 250px; /* 고정된 너비 설정 */
+    max-width: 350px; /* 최대 너비 설정 */
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 10px; /* 둥근 모서리 크기 */
+    background-color: #FEE500; /* 카카오톡 색상 */
+    color: #000; /* 카카오톡 텍스트 색상 */
+    font-size: 16px; /* 폰트 크기 고정 */
+    font-weight: 500;
+    cursor: pointer;
+    text-transform: none;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+    font-family: 'Arial', sans-serif;
+
+}
+
+
+.kakao-login-button img {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+
+}
+
+
+.kakao-login-button:hover {
+    background-color: #f9e000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 핸드폰 프레임 스타일 */
+.phone-screen {
+    width: 18vw;
+    height: calc(18vw * 16 / 9); /* 16:9 비율 유지 */
+    max-height: 80vh;  /* 최대 높이 설정 */
+    min-height: 30vh;  /* 최소 높이 설정 */
+    background-color: #f0f0f0;
+    border-radius: 2vw;
+    border: 1.2vw solid #333;
+    box-shadow: 0 0 1.5vw rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;  /* 말풍선이 밖으로 삐져나갈 수 있도록 설정 */
+}
+
+/* 핸드폰 상단 영역 (카메라 및 스피커 부분) */
+.phone-screen::before {
+    content: '';
+    position: absolute;
+    top: 1vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5vw;
+    height: 1vw;
+    background-color: #333;
+    border-radius: 1vw;
+}
+
+
+/* 채팅 말풍선 스타일 */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1vw;
+    overflow: visible;  /* 말풍선이 컨테이너 밖으로 나가도록 허용 */
+    top: 10%; /* 핸드폰 화면 내에서 채팅 컨테이너 시작 위치 */
+    left: -31%;  /* 말풍선이 폰 테두리 밖으로 삐져나가도록 위치 조정 */
+    width: 150%;
+    height: 70%; 
+    position: absolute;
+    overflow: hidden; /* 불필요한 공간을 없애기 위한 설정 */
+}
+
+.chat-bubble {
+    border-radius: 1.5vw;
+    padding: 1vw;
+    margin-bottom: 3vw;
+    align-self: flex-start;
+    max-width: 100%;
+    position: relative;
+    opacity: 0;
+    transform: translateY(2vw);  
+    white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+    font-size: 1vw; /* 텍스트 크기를 vw로 설정 */
+    font-family: 'Helvetica', sans-serif;
+}
+
+/* 각 채팅 버블 색상 */
+.chat-bubble.love { background: #ea95e1; }
+.chat-bubble.friend { background: #f5d042; }
+.chat-bubble.longtime { background: #fdab1c; }
+.chat-bubble.refuse { background: #6bd07f; }
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+    .phone-screen {
+        width: 25vw;
+    }
+    .chat-bubble {
+        padding: 0.8vw;
+        border-radius: 1vw;
+        font-size: 2vw; /* 중간 해상도에서 텍스트 크기 조정 */
+    }
+}
+
+@media (max-width: 480px) {
+    .phone-screen {
+        width: 20vw;
+    }
+    .chat-bubble {
+        padding: 0.6vw;
+        border-radius: 0.8vw;
+        font-size: 3vw; /* 작은 해상도에서 텍스트 크기 조정 */
+    }
+}
+
+/* 초기 상태에서 숨김 */
+.main-text, .google-login-button, .kakao-login-button, .logo, .phone-screen, .chat-bubble {
+    opacity: 0;
+    transform: translateY(20px);  /* 아래에서 위로 올라오는 애니메이션 준비 */
+    transition: opacity 0.5s ease, transform 0.5s ease;  /* 애니메이션 속성 */
 }

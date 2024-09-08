@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/Users/kov/Library/Mobile Documents/com~apple~CloudDocs/coding/messageai/myenv/bin/python3" "$0" "$@"
-' '''
+#!/Users/kov/coding/messageai/venv/bin/python3.12
 # -*- coding: utf-8 -*-
 import re
 import sys
